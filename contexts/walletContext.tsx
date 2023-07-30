@@ -6,8 +6,9 @@ import { useToast } from '@/components/ui/use-toast';
 import useWalletStore from '@/stores/wallet';
 
 import {
-  Coin98Adapter,
   MetaMaskAdapter,
+  Coin98Adapter,
+  FinAdapter,
   SUPPORTED_WALLETS,
 } from '@/adapters/wallet';
 
@@ -24,7 +25,7 @@ interface WalletProviderProps {
 
 const WalletContext = createContext({} as WalletContextValue);
 
-const wallets = [new MetaMaskAdapter(), new Coin98Adapter()];
+const wallets = [new MetaMaskAdapter(), new Coin98Adapter(), new FinAdapter()];
 
 export const WalletProvider = ({ children }: WalletProviderProps) => {
   const { toast } = useToast();
