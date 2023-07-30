@@ -23,6 +23,8 @@ export class MetaMaskAdapter extends BaseWalletAdapter {
 
   async connect() {
     try {
+      if (!window.ethereum) throw new Error('Please install MetaMask Wallet');
+
       const wallet = window.ethereum
       const accounts = await wallet.request({
         method: 'eth_requestAccounts',

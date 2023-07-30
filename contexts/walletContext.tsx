@@ -54,9 +54,13 @@ export const WalletProvider = ({ children }: WalletProviderProps) => {
     try {
       const activeAddress = await adapter.connect();
       setActiveAddress(activeAddress);
-      setProvider(adapter.getWalletName())
-    } catch (err) {
-      onShowError(`Please connect to ${adapter.getWalletName()}`);
+      setProvider(adapter.getWalletName());
+    } catch (err: any) {
+      onShowError(
+        err.message
+          ? err.message
+          : `Please connect to ${adapter.getWalletName()}`
+      );
     }
   };
 
@@ -67,7 +71,7 @@ export const WalletProvider = ({ children }: WalletProviderProps) => {
       adapter.disconnect();
       setWalletName(null);
       setProvider('');
-      setActiveAddress('')
+      setActiveAddress('');
     } catch (err) {
       onShowError('Disconnect waller error');
     }
