@@ -6,3 +6,4 @@ export * from './fin';
 
 // Others
 export * from './type';
+export * from './abstract';

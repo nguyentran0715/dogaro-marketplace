@@ -1,5 +1,5 @@
 import { SUPPORTED_WALLETS } from './type';
-import { BaseWalletAdapter } from './base';
+import { AbstractWalletAdapter } from './abstract';
 
 // define type for browser window object
 interface Coin98Window extends Window {
@@ -7,7 +7,7 @@ interface Coin98Window extends Window {
 }
 declare const window: Coin98Window;
 
-export class Coin98Adapter extends BaseWalletAdapter {
+export class Coin98Adapter extends AbstractWalletAdapter {
   name = SUPPORTED_WALLETS.COIN98;
 
   private _wallet: any;

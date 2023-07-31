@@ -1,4 +1,4 @@
-import { BaseWalletAdapter } from './base';
+import { AbstractWalletAdapter } from './abstract';
 import { SUPPORTED_WALLETS } from './type';
 
 // define type for browser window object
@@ -7,7 +7,7 @@ interface MetaMaskWindow extends Window {
 }
 declare const window: MetaMaskWindow;
 
-export class MetaMaskAdapter extends BaseWalletAdapter {
+export class MetaMaskAdapter extends AbstractWalletAdapter {
   name = SUPPORTED_WALLETS.METAMASK;
 
   private _wallet: null;
