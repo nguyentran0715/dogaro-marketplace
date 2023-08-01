@@ -1,11 +1,6 @@
-export interface IAbstractWalletAdapter {
-  name: string;
-  connect(): Promise<any>;
-  disconnect(): Promise<any>;
-}
-
-export abstract class AbstractWalletAdapter implements IAbstractWalletAdapter {
+import { Chain } from "@/utils/constants";
+export abstract class AbstractWalletAdapter {
   abstract name: string;
-  abstract connect(): Promise<any>;
+  abstract connect(chainIdHex: Chain): Promise<any>;
   abstract disconnect(): Promise<any>;
 }
