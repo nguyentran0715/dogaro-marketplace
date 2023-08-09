@@ -56,14 +56,19 @@ export default function Test() {
   }, [activeAddress]);
 
   const testMint = async () => {
-    const mint = await contract.methods.mintTo(activeAddress, '').encodeABI();
+    const mint = await contract.methods
+      .mintTo(
+        activeAddress,
+        'ipfs://QmRq3Ky5rWpBaJ2gKCVV6DxTF1zmwEoiPC5WMZESr5QSru/0'
+      )
+      .encodeABI();
 
     const hash = await (window as any).coin98.provider.request({
       method: 'eth_sendTransaction',
       params: [
         {
-          from: CONTRACT_ADDRESS,
-          to: activeAddress,
+          from: activeAddress,
+          to: CONTRACT_ADDRESS,
           data: mint,
         },
       ],
