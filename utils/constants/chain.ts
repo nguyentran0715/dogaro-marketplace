@@ -1,12 +1,13 @@
 export enum Chain {
   BNB = '0x38',
   ETH = '0x1',
+  MUMBAI = '0x13881',
   // SEI = 'sei'
 }
 
 export enum ChainKind {
   EVM = 'evm',
-  COSMWASM = 'cosmwasm'
+  COSMWASM = 'cosmwasm',
 }
 
 type ChainType = {
@@ -17,20 +18,27 @@ type ChainType = {
   kind: ChainKind;
 };
 
-export const SUPPORTED_CHAINS: {[key in Chain]: ChainType} = {
+export const SUPPORTED_CHAINS: { [key in Chain]: ChainType } = {
   [Chain.BNB]: {
     name: 'BNB Smart Chain',
     symbol: 'bsc',
     chainId: 56,
     chainIdHex: '0x38',
-    kind: ChainKind.EVM
+    kind: ChainKind.EVM,
   },
   [Chain.ETH]: {
     name: 'Ethereum',
     symbol: 'eth',
     chainId: 1,
     chainIdHex: '0x1',
-    kind: ChainKind.EVM
+    kind: ChainKind.EVM,
+  },
+  [Chain.MUMBAI]: {
+    name: 'Mumbai',
+    symbol: 'polygon',
+    chainId: 80001,
+    chainIdHex: '0x13881',
+    kind: ChainKind.EVM,
   },
   // [Chain.SEI]: {
   //   name: 'Sei',
@@ -39,4 +47,4 @@ export const SUPPORTED_CHAINS: {[key in Chain]: ChainType} = {
   //   chainIdHex: 'sei',
   //   kind: ChainKind.COSMWASM
   // },
-}
+};

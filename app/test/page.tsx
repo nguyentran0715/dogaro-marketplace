@@ -3,6 +3,7 @@
 import { SUPPORTED_WALLETS } from '@/adapters/wallet';
 import { Chain, SUPPORTED_CHAINS } from '@/utils/constants';
 import { useWalletContext } from '@/contexts/walletContext';
+import Web3 from 'web3';
 
 import { Button } from '@/components/ui/Button';
 import {
@@ -14,13 +15,15 @@ import {
 } from '@/components/ui/select';
 
 import useWalletStore from '@/stores/wallet';
+import { useEffect } from 'react';
+import { erc721 } from '@/config/abi/erc721';
 
 const chains = Object.keys(SUPPORTED_CHAINS) as Chain[];
 const supportedWallets = [
   {
     name: 'Coin98',
     id: SUPPORTED_WALLETS.COIN98,
-    chains: [Chain.BNB, Chain.ETH],
+    chains: [Chain.BNB, Chain.ETH, Chain.MUMBAI],
   },
   // {
   //   name: 'Fin',
@@ -29,11 +32,44 @@ const supportedWallets = [
   // },
 ];
 
+const CONTRACT_ADDRESS = '0xAF183eE56485371B045f68B299e7C93d0C991C0E';
+const web3 = new Web3((window as any).coin98.provider);
+const contract = new web3.eth.Contract(erc721, CONTRACT_ADDRESS) as any;
+
 export default function Test() {
   // Custom hooks
   const { activeAddress, provider } = useWalletStore();
   const { onSelectWallet, onDisconnect, chain, onSelectChain, isConnected } =
     useWalletContext();
+
+  useEffect(() => {
+    if (activeAddress) {
+      const testWeb3 = async () => {
+        const totalSupply = await contract.methods.totalSupply().call();
+        const tokenURI = await contract.methods.tokenURI(0).call();
+
+        console.log({ totalSupply, tokenURI });
+      };
+
+      testWeb3();
+    }
+  }, [activeAddress]);
+
+  const testMint = async () => {
+    const mint = await contract.methods.mintTo(activeAddress, '').encodeABI();
+
+    const hash = await (window as any).coin98.provider.request({
+      method: 'eth_sendTransaction',
+      params: [
+        {
+          from: CONTRACT_ADDRESS,
+          to: activeAddress,
+          data: mint,
+        },
+      ],
+    });
+    console.log('testMint ~ hash: ', hash);
+  };
 
   // Variables
   const walletsByChain = supportedWallets.filter(wallet =>
@@ -86,7 +122,7 @@ export default function Test() {
             </Button>
           ))
         ) : (
-          <Button onClick={onDisconnect}>Disconnect</Button>
+          <Button onClick={testMint}>Mint</Button>
         )}
       </div>
     </div>

@@ -5,7 +5,6 @@ import { SUPPORTED_WALLETS } from './type';
 
 // adapters
 import { Coin98Adapter } from './coin98';
-import { FinAdapter } from './fin';
 
 export class BaseWalletAdapter {
   private _walletName: SUPPORTED_WALLETS;
@@ -21,7 +20,7 @@ export class BaseWalletAdapter {
       const walletName = this._walletName;
       const wallet = this._getWalletProvider(walletName);
 
-      if (!wallet) throw new Error('Connect Error')
+      if (!wallet) throw new Error('Connect Error');
 
       const response = await wallet.connect(chainIdHex);
 
@@ -37,9 +36,6 @@ export class BaseWalletAdapter {
     switch (walletName) {
       case SUPPORTED_WALLETS.COIN98:
         return new Coin98Adapter();
-
-      case SUPPORTED_WALLETS.FIN:
-        return new FinAdapter();
 
       default:
         return null;
